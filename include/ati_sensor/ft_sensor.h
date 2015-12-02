@@ -14,6 +14,9 @@
 #include <stdint.h>
 #include <unistd.h>
 #include <sstream>
+#include <map>
+#include <vector>
+
 // Give RTnet capabilities
 #ifndef HAVE_RTNET
 
@@ -116,6 +119,10 @@ public:
   bool isInitialized();
   bool getCalibrationData();
   bool setRDTOutputRate(unsigned int rate);
+  bool setGaugeBias(unsigned int gauge_idx, int gauge_bias);
+  bool setGaugeBias(std::map<unsigned int, int> &gauge_map);
+  bool setGaugeBias(std::vector<int> &gauge_vect);
+
 protected:
   // Socket info
   bool startRealTimeStreaming(uint32_t sample_count=1);
@@ -135,6 +142,7 @@ protected:
   bool sendCommand();
   bool sendCommand(uint16_t cmd);
   bool getResponse();
+  bool sendTCPrequest(std::string &request_cmd);
   void doComm();
   std::string ip;
   uint16_t port;
